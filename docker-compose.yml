@@ -1,0 +1,20 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0   # Stable pinned version
+    container_name: keycloak
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_DB=dev-file
+      - KC_HOSTNAME=localhost
+      - KC_HTTP_ENABLED=true
+      - KC_HEALTH_ENABLED=true
+      - KC_FEATURES=token-exchange   # Removed admin2
+    ports:
+      - "8080:8080"
+    command: start-dev
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+
+volumes:
+  keycloak_data:
