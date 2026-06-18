@@ -15,14 +15,7 @@ async def analyze_text(content: str, ctx: Context) -> str:
     Analyzes a given block of text and returns its total word count 
     and a rudimentary sentiment check. (Requires Keycloak OAuth Protection)
     """
-
-    auth_error_msg = await enforce_authentication(ctx.session_id)
-    
-   
-    if auth_error_msg:
-        return auth_error_msg
-
-
+    await enforce_authentication(ctx.session_id)
     words = content.split()
     word_count = len(words)
     
