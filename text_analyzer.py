@@ -2,10 +2,21 @@
 import os
 import logging
 from fastmcp import FastMCP, Context  
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 from auth_utils import enforce_authentication, LOG_FILE_PATH
 
 
 logging.basicConfig(level=logging.INFO, filename=LOG_FILE_PATH, filemode="a")
+
+CORS_MIDDLEWARE = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+]
 
 mcp = FastMCP("TextAnalyzerSkill")
 
@@ -35,4 +46,4 @@ async def analyze_text(content: str, ctx: Context) -> str:
 
 if __name__ == "__main__":
     print("⚡ Starting Secure MCP Server over SSE Transport Layer")
-    mcp.run(transport="sse", port=3003)
+    mcp.run(transport="sse", port=3003, middleware=CORS_MIDDLEWARE)
